@@ -89,17 +89,21 @@ if (
 
 			foreach ( get_post_meta( $venue_organizer_ID ) as $field => $value ) {
 				$field = trim( $field );
-				if ( is_array( $value ) ) $value = implode( ', ', $value );
-				if ( 0 === strpos( $field, '_' ) ) continue; // Don't expose "private" fields
+				if ( is_array( $value ) )
+					$value = implode( ', ', $value );
+
+				if ( 0 === strpos( $field, '_' ) )
+					continue; // Don't expose "private" fields
+
 				$fields_to_echo[ $field ] = $value;
 			}
 
-			$fields_to_echo = apply_filters( 'tribe_show_venue_organizer_custom_fields', $fields_to_echo = $fields_to_echo, $venue_organizer_ID = $venue_organizer_ID );
-
+			$fields_to_echo = apply_filters( 'tribe_show_venue_organizer_custom_fields', $fields_to_echo, $venue_organizer_ID );
+			$template = plugin_dir_path( __FILE__ ) . '/src/views/custom-fields.php';
 			if ( tribe_is_venue( $venue_organizer_ID ) && $show_venue_fields && ! empty( $fields_to_echo ) ) {
-				include apply_filters( 'tribe_venue_custom_fields_template', $template = plugin_dir_path( __FILE__ ) . '/src/views/custom-fields.php' ) ;
+				include apply_filters( 'tribe_venue_custom_fields_template', $template );
 			} elseif ( tribe_is_organizer( $venue_organizer_ID ) && $show_organizer_fields && ! empty( $fields_to_echo ) ) {
-				include apply_filters( 'tribe_organizer_custom_fields_template', $template = plugin_dir_path( __FILE__ ) . '/src/views/custom-fields.php' ) ;
+				include apply_filters( 'tribe_organizer_custom_fields_template', $template ) ;
 			}
 		}
 	} // end class
